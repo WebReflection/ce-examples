@@ -21,14 +21,13 @@ const TodoItem = CustomTag({
   },
   onInit() {
     // we can still use a semantic slot
-    // recycling what's in there already
+    // recycling what's in the node already
     this.innerHTML = `
       <label>
         <input type=checkbox>
         <slot>${this.innerHTML}</slot>
       </label>
     `;
-    this.slot = this.querySelector('slot');
     this.querySelector('input').addEventListener('click', () =>
       store(store().filter((todo, index) => index != this.index)));
   }

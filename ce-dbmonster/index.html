@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Custom Elements, the React way</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!--[if lte IE 9]><script>(function(f){window.setTimeout=f(window.setTimeout);window.setInterval=f(window.setInterval)})(function(f){return function(c,t){var a=[].slice.call(arguments,2);return f(function(){c.apply(this,a)},t)}});</script><![endif]-->
+    <!--[if IE 8]><script  defer src="https://cdnjs.cloudflare.com/ajax/libs/ie8/0.4.1/ie8.js"></script><![endif]-->
+    <script  defer src="https://cdnjs.cloudflare.com/ajax/libs/dom4/1.8.3/dom4.js"></script>
+    <!--[if IE 8]><script defer src="https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.3.0/dre-ie8-upfront-fix.js"></script><![endif]-->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.3.0/document-register-element.js"></script>
+    <!--[if IE 8]>
+      <script defer src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.js"></script>
+      <script defer src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.js"></script>
+    <![endif]-->
+    <script defer src="https://unpkg.com/classtrophobic@0.1.2/classtrophobic.min.js"></script>
+    <script defer src="https://unpkg.com/custom-tag@0.2.0/custom-tag.js"></script>
+  </head>
+  <body>
+    <div id="link">
+      You're looking at Custom Elements<br>
+      version of <a href="https://dbmonster.firebaseapp.com/">DBMonster</a>.
+    </div>
+    <db-monster data="data2.js"></db-monster>
+  </body>
+  <script defer src="index.js"></script>
+</html>
