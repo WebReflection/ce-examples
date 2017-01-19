@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Custom Elements Basics</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script>
+      const setText = (el, content) => {
+        try {
+          el.textContent += ' ' + content;
+        } catch(nope) {
+          console.error('unable to set content');
+        }
+      };
+      class CustomElementTest extends HTMLElement {
+        static get observedAttributes() {
+          return ['key'];
+        }
+        constructor(...args) {
+          super();
+          console.log(this.nodeName + '.constructor', args);
+          setText(this, 'constructor');
+        }
+        connectedCallback(...args) {
+          console.log(this.nodeName + '.connectedCallback', args);
+          setText(this, 'connectedCallback');
+        }
+        disconnectedCallback(...args) {
+          console.log(this.nodeName + '.disconnectedCallback', args);
+          setText(this, 'disconnectedCallback');
+        }
+        attributeChangedCallback(...args) {
+          console.log(this.nodeName + '.attributeChangedCallback', args);
+          setText(this, 'attributeChangedCallback');
+        }
+      }
+      /*
+      before-el defined [undefined]
+      BEFORE-EL.constructor []
+      Uncaught DOMException: Failed to construct 'CustomElement': The result must not have children
+      BEFORE-EL.constructor []
+      Uncaught DOMException: Failed to construct 'CustomElement': The result must not have children
+      */
+      customElements.whenDefined('before-el').then((...args) => {
+        console.log('before-el defined', args);
+      });
+      customElements.define('before-el', class extends CustomElementTest {
+        /*
+        constructor() {
+          return Reflect.construct(
+            HTMLElement, [],
+            customElements.get('before-el')
+          );
+        }
+        */
+      });
+    </script>
+  </head>
+  <body>
+    <before-el>first</before-el>
+    <before-el key="value">second</before-el>
+    <after-el>first</after-el>
+    <after-el key="value">second</after-el>
+  </body>
+  <script>
+      /*
+      AFTER-EL.constructor []
+      AFTER-EL.connectedCallback []
+      AFTER-EL.constructor []
+      AFTER-EL.attributeChangedCallback ["key", null, "value", null]
+      AFTER-EL.connectedCallback []
+      after-el defined [undefined]
+      */
+      customElements.whenDefined('after-el').then((...args) => {
+        console.log('after-el defined', args);
+      });
+      customElements.define('after-el', class extends CustomElementTest {});
+
+      setTimeout(() => {
+        const BeforeEl = customElements.get('before-el');
+        const AfterEl = customElements.get('before-el');
+        let el = new BeforeEl;
+        el.setAttribute('key', 'value');
+        document.body.appendChild(el);
+        el = new BeforeEl;
+        document.body.appendChild(el).setAttribute('key', 'value');
+      }, 1000);
+    </script>
+</html>

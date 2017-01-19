@@ -1,3 +1,35 @@
+var stats;
+if (window.performance && performance.memory) {
+  stats = new MemoryStats();
+  stats.domElement.style.position = 'fixed';
+  stats.domElement.style.right = '0px';
+  stats.domElement.style.bottom = '0px';
+  document.body.appendChild( stats.domElement );
+} else {
+  stats = {update: function () {}};
+}
+
+if (typeof fetch === 'undefined') {
+  window.fetch = function (url) {
+    var resolve, xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onload = function () {
+      resolve({
+        text: function () {
+          return xhr.responseText;
+        },
+        json: function () {
+          return JSON.parse(xhr.responseText);
+        }
+      });
+    };
+    xhr.send();
+    return new Promise(function (res) {
+      resolve = res;
+    });
+  };
+}
+
 CustomTag({
   name: 'db-monster',
   watch: ['data'],
@@ -8,6 +40,7 @@ CustomTag({
         getData().forEach((info, i) => {
           this.updates[i](info);
         });
+        stats.update();
       };
       update();
     }
