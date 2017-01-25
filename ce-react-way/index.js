@@ -16,9 +16,6 @@ const render = (component, parent = document.body) =>
 const TodoItem = CustomTag({
   name: 'todo-item',
   watch: ['index'],
-  onChange(name, old, change) {
-    this.index = change;
-  },
   onInit() {
     // we can still use a semantic slot
     // recycling what's in the node already
