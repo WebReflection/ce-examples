@@ -18,16 +18,16 @@ const TodoItem = CustomTag(
   withTemplate({
     name: 'todo-item',
     watch: ['index'],
+    onInit() {
+      this.querySelector('input').addEventListener('click', () =>
+        store(store().filter((todo, index) => index != this.index)));
+    },
     get template() {return `
       <label>
         <input type=checkbox>
         <slot></slot>
       </label>
-    `;},
-    onInit() {
-      this.querySelector('input').addEventListener('click', () =>
-        store(store().filter((todo, index) => index != this.index)));
-    }
+    `;}
   })
 );
 
@@ -59,7 +59,7 @@ function withTemplate(definition) {
     this.innerHTML = this.template;
     const slot = this.querySelector('slot');
     if (slot && !slot.hasAttribute('template')) {
-      slot.setAttribute('template', 'template');
+      slot.setAttribute('template', this.tagName);
       slot.innerHTML = html;
     }
     if (onInit) onInit.call(this);

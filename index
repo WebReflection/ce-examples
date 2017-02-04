@@ -10,6 +10,8 @@ echo '<!DOCTYPE html>
     body { font-family: sans-serif; }
     h1 { font-size: 1.2em; }
     footer { font-size: .8em; }
+    a, a:visited { display: block; padding: 4px; font-weight: bold; color: #03A;  text-decoration: none; transition: all ease-out .3s; }
+    a:hover { color: #05F; }
     </style>
   </head>
   <body>
