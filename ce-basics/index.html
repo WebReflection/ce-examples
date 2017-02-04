@@ -18,8 +18,9 @@
         }
         constructor(...args) {
           super();
-          console.log(this.nodeName + '.constructor', args);
-          console.log('Class is defined: ', !!customElements.get(this.nodeName.toLowerCase()));
+          const name = this.nodeName.toLowerCase();
+          console.log(name + '.constructor', args);
+          console.log('Class is defined: ', !!customElements.get(name));
           setText(this, 'constructor');
         }
         connectedCallback(...args) {
