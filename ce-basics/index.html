@@ -19,20 +19,21 @@
         constructor(...args) {
           super();
           const name = this.nodeName.toLowerCase();
+          console.log('%c' + name, 'font-weight:bold;font-size:1.2em;');
+          console.log('Class available: ', !!customElements.get(name));
           console.log(name + '.constructor', args);
-          console.log('Class is defined: ', !!customElements.get(name));
           setText(this, 'constructor');
         }
         connectedCallback(...args) {
-          console.log(this.nodeName + '.connectedCallback', args);
+          console.log(this.nodeName.toLowerCase() + '.connectedCallback', args);
           setText(this, 'connectedCallback');
         }
         disconnectedCallback(...args) {
-          console.log(this.nodeName + '.disconnectedCallback', args);
+          console.log(this.nodeName.toLowerCase() + '.disconnectedCallback', args);
           setText(this, 'disconnectedCallback');
         }
         attributeChangedCallback(...args) {
-          console.log(this.nodeName + '.attributeChangedCallback', args);
+          console.log(this.nodeName.toLowerCase() + '.attributeChangedCallback', args);
           setText(this, 'attributeChangedCallback');
         }
       }
