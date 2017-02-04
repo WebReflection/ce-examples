@@ -19,6 +19,7 @@
         constructor(...args) {
           super();
           console.log(this.nodeName + '.constructor', args);
+          console.log('Class is defined: ', !!customElements.get(this.nodeName.toLowerCase()));
           setText(this, 'constructor');
         }
         connectedCallback(...args) {
@@ -44,16 +45,7 @@
       customElements.whenDefined('before-el').then((...args) => {
         console.log('before-el defined', args);
       });
-      customElements.define('before-el', class extends CustomElementTest {
-        /*
-        constructor() {
-          return Reflect.construct(
-            HTMLElement, [],
-            customElements.get('before-el')
-          );
-        }
-        */
-      });
+      customElements.define('before-el', class extends CustomElementTest {});
     </script>
   </head>
   <body>
