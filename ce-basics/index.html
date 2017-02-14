@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <script>
+      // test helper to try setting some content
       const setText = (el, content) => {
         try {
           el.textContent += ' ' + content;
@@ -12,6 +13,8 @@
           console.error('unable to set content');
         }
       };
+
+      // test class
       class CustomElementTest extends HTMLElement {
         static get observedAttributes() {
           return ['key'];
@@ -37,6 +40,12 @@
           setText(this, 'attributeChangedCallback');
         }
       }
+
+      customElements.whenDefined('before-el').then((...args) => {
+        console.log('%cbefore-el defined ' + args, 'color:green;font-weight:bold');
+      });
+      customElements.define('before-el', class extends CustomElementTest {});
+
       /*
       before-el defined [undefined]
       before-el.constructor []
@@ -44,10 +53,7 @@
       before-el.constructor []
       Uncaught DOMException: Failed to construct 'CustomElement': The result must not have children
       */
-      customElements.whenDefined('before-el').then((...args) => {
-        console.log('%cbefore-el defined ' + args, 'color:green;font-weight:bold');
-      });
-      customElements.define('before-el', class extends CustomElementTest {});
+
     </script>
   </head>
   <body>
@@ -57,6 +63,11 @@
     <after-el key="value">second</after-el>
   </body>
   <script>
+      customElements.whenDefined('after-el').then((...args) => {
+        console.log('%cafter-el defined ' + args, 'color:green;font-weight:bold');
+      });
+      customElements.define('after-el', class extends CustomElementTest {});
+
       /*
       after-el.constructor []
       after-el.connectedCallback []
@@ -65,14 +76,10 @@
       after-el.connectedCallback []
       after-el defined [undefined]
       */
-      customElements.whenDefined('after-el').then((...args) => {
-        console.log('%cafter-el defined ' + args, 'color:green;font-weight:bold');
-      });
-      customElements.define('after-el', class extends CustomElementTest {});
 
       setTimeout(() => {
         const BeforeEl = customElements.get('before-el');
-        const AfterEl = customElements.get('before-el');
+        const AfterEl = customElements.get('after-el');
         let el = new BeforeEl;
         el.setAttribute('key', 'value');
         document.body.appendChild(el);
